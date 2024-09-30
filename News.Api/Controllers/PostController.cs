@@ -1,4 +1,5 @@
 using System.Runtime.CompilerServices;
+using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using News.Api.Authentication;
@@ -11,7 +12,7 @@ namespace News.Api.Controllers;
 
 
 [ApiController]
-[Route("api/v1/posts")]
+[Route("api/v{version:apiVersion}/posts")]
 public class PopulateDBController : ControllerBase
 {
     private readonly IPostWriteService _postWriteService;
@@ -23,7 +24,8 @@ public class PopulateDBController : ControllerBase
 
     [HttpPost]
     [ServiceFilter(typeof(ApiKeyAuthFilter))]
-    public async Task<ActionResult<PostSavedResponse>> RecieveData([FromBody] IncomingDataDto incomingDataDto)
+    [ApiVersion(1)]
+    private async Task<ActionResult<PostSavedResponse>> RecieveData([FromBody] IncomingDataDto incomingDataDto)
     {
        
        

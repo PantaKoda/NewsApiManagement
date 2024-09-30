@@ -12,6 +12,12 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<NewsDbContext>();
 builder.Services.AddScoped<IPostWriteService, PostWriteService>();
 builder.Services.AddScoped<ApiKeyAuthFilter>();
+builder.Services.AddApiVersioning(setupAction =>
+{
+    setupAction.ReportApiVersions = true;
+    setupAction.AssumeDefaultVersionWhenUnspecified = true;
+    setupAction.DefaultApiVersion = new Asp.Versioning.ApiVersion(1, 0);
+}).AddMvc();
 
 var app = builder.Build();
 
