@@ -11,6 +11,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<NewsDbContext>();
 builder.Services.AddScoped<IPostWriteService, PostWriteService>();
+builder.Services.AddScoped<IPostQueriesService, PostQueriesService>();
 builder.Services.AddScoped<ApiKeyAuthFilter>();
 builder.Services.AddApiVersioning(setupAction =>
 {

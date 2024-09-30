@@ -16,10 +16,13 @@ namespace News.Api.Controllers;
 public class PopulateDBController : ControllerBase
 {
     private readonly IPostWriteService _postWriteService;
+    private readonly IPostQueriesService _postQueriesService;
    
-    public PopulateDBController(IPostWriteService postWriteService) 
+
+    public PopulateDBController(IPostWriteService postWriteService, IPostQueriesService postQueriesService)
     {
-        _postWriteService = postWriteService; 
+        _postWriteService = postWriteService;
+        _postQueriesService = postQueriesService;
     }
 
     [HttpPost]
@@ -48,5 +51,31 @@ public class PopulateDBController : ControllerBase
             return StatusCode(500, "An error occurred while processing the request: " + ex.Message);
         }
     }
+
+
+    [HttpGet]
+    [ApiVersion(1)]
+
+    public async Task<ActionResult<IEnumerable<BasicQueryDto>>> GetPostsByWebsiteName(string websiteName)
+    {
+        var posts = await _postQueriesService.GetPostsByWebsiteNameAsync(websiteName);
+        var results = new List<BasicQueryDto>();
+
+        foreach (var post in posts)
+        {
+            results.Add(new BasicQueryDto
+            {
+                title = post.title,
+                publishDateUtc = post.publishDateUtc,
+                imgUrl = post.imgUrl,
+                postUrl = post.postUrl,
+                websiteName = post.websiteName,
+                categoryName = post.categoryName
+            });
+        }
+
+        return Ok(results);
+    }
+    
 }
 
