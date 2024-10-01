@@ -1,4 +1,4 @@
-﻿namespace News.Api.Entities;
+﻿namespace News.Api.Models;
 
 public class PostTag
 {

@@ -1,5 +1,4 @@
 ﻿using News.Api.Data.Dtos;
-using News.Api.Entities;
 
 namespace News.Api.Services;
 

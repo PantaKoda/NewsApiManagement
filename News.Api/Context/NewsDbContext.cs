@@ -1,25 +1,17 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using News.Api.Data.EntityMappings;
-using News.Api.Entities;
-
+using News.Api.Models;
 namespace News.Api.Context;
 
 public class NewsDbContext : DbContext
 {
-    private IConfiguration _configuration;
+    private readonly IConfiguration _configuration;
 
-    protected NewsDbContext(IConfiguration configuration)
-    {
-        _configuration = configuration;
-    }
-
-    public NewsDbContext()
-    {
-    }
-
-    public NewsDbContext(DbContextOptions<NewsDbContext> options)
+    
+    public NewsDbContext(DbContextOptions<NewsDbContext> options,IConfiguration configuration)
         : base(options)
     {
+        _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
     }
 
     public DbSet<Post> posts => Set<Post>();
@@ -29,13 +21,15 @@ public class NewsDbContext : DbContext
     public DbSet<PostTag> postsTags => Set<PostTag>();
     public DbSet<MainPageArticle> mainPageArticles => Set<MainPageArticle>();
     
-
-
-
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseNpgsql(
-            _configuration.GetValue<string>("ConnectionString:DB_URL"));
+        if (!optionsBuilder.IsConfigured) // Only configure if it hasn't been done already
+        {
+            optionsBuilder.UseNpgsql(_configuration.GetValue<string>("ConnectionString:DB_URL"));
+            /*optionsBuilder.UseNpgsql(
+                "Host=188.245.61.197;Port=5432;Database=news-v2;Username=Themis-DB;Password=M8EDAZXpojolxoG5W1sQpar5CASa8RTmPkD0FnGu9VZAIahNmtGS0GSm6wTcfnZs;");*/
+            base.OnConfiguring(optionsBuilder);
+        }
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

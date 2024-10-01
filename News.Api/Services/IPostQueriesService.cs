@@ -1,8 +1,10 @@
-﻿using News.Api.Data.Dtos;
+﻿using News.Api.Models;
 
 namespace News.Api.Services;
 
 public interface IPostQueriesService
 {
-    Task<IEnumerable<BasicQueryDto>> GetPostsByWebsiteNameAsync(string websiteName);
+    Task<IEnumerable<Post>> GetPostsByWebsiteNameAsync(string? websiteName);
+    Task<IEnumerable<Post>> GetRecentPostsAsync();
+    Task<IEnumerable<Post>> GetRecentPostsAsync(string? websiteName);
 }

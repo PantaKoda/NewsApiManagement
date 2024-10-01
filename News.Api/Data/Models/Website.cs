@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace News.Api.Entities;
+namespace News.Api.Models;
 
 public class Website
 {
