@@ -26,8 +26,6 @@ public class NewsDbContext : DbContext
         if (!optionsBuilder.IsConfigured) // Only configure if it hasn't been done already
         {
             optionsBuilder.UseNpgsql(_configuration.GetValue<string>("ConnectionString:DB_URL"));
-            /*optionsBuilder.UseNpgsql(
-                "Host=188.245.61.197;Port=5432;Database=news-v2;Username=Themis-DB;Password=M8EDAZXpojolxoG5W1sQpar5CASa8RTmPkD0FnGu9VZAIahNmtGS0GSm6wTcfnZs;");*/
             base.OnConfiguring(optionsBuilder);
         }
     }
